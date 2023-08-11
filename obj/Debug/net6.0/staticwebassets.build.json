@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "S80RnL2m12ycsnWmT2wmvPdrpmtWZmlt7vz03XGZb/g=",
+  "Source": "JWTLogin",
+  "BasePath": "_content/JWTLogin",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

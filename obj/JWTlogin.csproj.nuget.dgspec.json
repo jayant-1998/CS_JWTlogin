@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Jayant\\Desktop\\C# Workspace\\JWTlogin\\JWTlogin.csproj": {}
+    "C:\\Users\\Jayant\\Desktop\\C# Workspace\\JWTlogin\\JWTLogin.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Jayant\\Desktop\\C# Workspace\\JWTlogin\\JWTlogin.csproj": {
+    "C:\\Users\\Jayant\\Desktop\\C# Workspace\\JWTlogin\\JWTLogin.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Jayant\\Desktop\\C# Workspace\\JWTlogin\\JWTlogin.csproj",
-        "projectName": "JWTlogin",
-        "projectPath": "C:\\Users\\Jayant\\Desktop\\C# Workspace\\JWTlogin\\JWTlogin.csproj",
+        "projectUniqueName": "C:\\Users\\Jayant\\Desktop\\C# Workspace\\JWTlogin\\JWTLogin.csproj",
+        "projectName": "JWTLogin",
+        "projectPath": "C:\\Users\\Jayant\\Desktop\\C# Workspace\\JWTlogin\\JWTLogin.csproj",
         "packagesPath": "C:\\Users\\Jayant\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\Jayant\\Desktop\\C# Workspace\\JWTlogin\\obj\\",
         "projectStyle": "PackageReference",
@@ -45,6 +45,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "EntityFramework": {
+              "target": "Package",
+              "version": "[6.4.4, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.10, )"
