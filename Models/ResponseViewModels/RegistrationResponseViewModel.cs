@@ -2,8 +2,8 @@
 {
     public class RegistrationResponseViewModel
     {
-        public string email { get; set; }
-        public string name { get; set; }
-        public int age { get; set; }
+        public string Email { get; set; }
+        public string Name { get; set; }
+        public int Age { get; set; }
     }
 }

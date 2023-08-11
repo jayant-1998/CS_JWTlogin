@@ -2,11 +2,12 @@
 using JWTLogin.Models.RequestViewModels;
 using JWTLogin.Models.ResponseViewModels;
 
-namespace JWTLogin.Services.Interfaces
+namespace JWTLogin.DAL.Repositories.Interfaces
 {
-    public interface IJWTLoginService
+    public interface IJWTEmployeeRepository
     {
-        public Task<RegistrationResponseViewModel> InsertDataAsync(RegistrationRequestViewModel reg);
+        public Task<RegisteredEntity> RegistrationAsync(RegisteredEntity reg);
+
         public Task<string> LoginAsync(LoginRequestViewModel reg);
     }
 }

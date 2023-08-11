@@ -9,18 +9,19 @@ using System.Text;
 
 namespace JWTLogin.Services.Implementations
 {
-    public class JWTLoginService : IJWTLoginService
+    public class JWTEmployeeService : IJWTEmployeeService
     {
-        private readonly IJWTLoginRepository _repository;
+        private readonly IJWTEmployeeRepository _repository;
 
-        public JWTLoginService(IServiceProvider serviceProvider)
+        public JWTEmployeeService(IServiceProvider serviceProvider)
         {
-            _repository = serviceProvider.GetRequiredService<IJWTLoginRepository>();
+            _repository = serviceProvider.GetRequiredService<IJWTEmployeeRepository>();
         }
-        public async Task<RegistrationResponseViewModel?> InsertDataAsync(RegistrationRequestViewModel reg)
+        public async Task<RegistrationResponseViewModel?> RegistrationAsync(RegistrationRequestViewModel reg)
         {
-            reg.password = HashPassword(reg.password);
-            var entity = await _repository.InsertDataAsync(reg);
+            reg.Password = HashPassword(reg.Password);
+            var temp =reg.ToViewModel<RegistrationRequestViewModel, RegisteredEntity>();
+            var entity = await _repository.RegistrationAsync(temp);
             if (entity != null)
             {
                 return entity.ToViewModel<RegisteredEntity, RegistrationResponseViewModel>();

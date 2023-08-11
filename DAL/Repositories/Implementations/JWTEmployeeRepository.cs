@@ -3,7 +3,6 @@ using JWTLogin.DAL.Entities;
 using JWTLogin.DAL.Repositories.Interfaces;
 using JWTLogin.Extensions;
 using JWTLogin.Models.RequestViewModels;
-using JWTLogin.Models.ResponseViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -13,34 +12,33 @@ using System.Text;
 
 namespace JWTLogin.DAL.Repositories.Implementations
 {
-    public class JWTLoginRepository : IJWTLoginRepository
+    public class JWTEmployeeRepository : IJWTEmployeeRepository
     {
         
 
-        private readonly JWTLoginDbContext _context;
+        private readonly JWTEmployeeDbContext _context;
         
-        public JWTLoginRepository(IServiceProvider serviceProvider)
+        public JWTEmployeeRepository(IServiceProvider serviceProvider)
         {
-            _context = serviceProvider.GetRequiredService<JWTLoginDbContext>();
+            _context = serviceProvider.GetRequiredService<JWTEmployeeDbContext>();
         }
-        public async Task<RegisteredEntity> InsertDataAsync(RegistrationRequestViewModel registration)
+        public async Task<RegisteredEntity> RegistrationAsync(RegisteredEntity registration)
         {
-            var registrationEntity = registration.ToViewModel<RegistrationRequestViewModel, RegisteredEntity>();
-            await _context.AddAsync(registrationEntity);
+            await _context.AddAsync(registration);
             await _context.SaveChangesAsync();
-            return registrationEntity;
+            return registration;
         }
         public async Task<string> LoginAsync(LoginRequestViewModel reg)
         {
             var response = await _context.registrations
-                                .Where(r => r.email == reg.email)
+                                .Where(r => r.Email == reg.Email)
                                 .FirstOrDefaultAsync();
 
             if (response != null)
             {
-                if (ComparePassword(reg.password, response.password))
+                if (ComparePassword(reg.Password, response.Password))
                     {
-                    return GenerateJwt(response.user_id, "JWTTokenSecretKey");
+                    return GenerateJwt(response.UserId, "JWTTokenSecretKey");
                     }
                 return "password does not match";
             }
@@ -58,19 +56,16 @@ namespace JWTLogin.DAL.Repositories.Implementations
         }
         static string GenerateJwt(int userId, string secretKey)
         {
-            var securityKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(secretKey));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
             {
             new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
         };
 
             var token = new JwtSecurityToken(
-                issuer: "your_issuer_here",
-                audience: "your_audience_here",
                 claims: claims,
                 expires: DateTime.UtcNow.AddHours(1),
                 signingCredentials: credentials

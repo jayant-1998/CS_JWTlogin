@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JWTLogin.DAL.DBContexts
 {
-    public class JWTLoginDbContext : DbContext
+    public class JWTEmployeeDbContext : DbContext
     {
-        public JWTLoginDbContext(DbContextOptions options) : base(options) { }
+        public JWTEmployeeDbContext(DbContextOptions options) : base(options) { }
         
         public DbSet<RegisteredEntity> registrations { get; set; }
 

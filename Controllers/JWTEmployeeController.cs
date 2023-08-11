@@ -7,20 +7,20 @@ namespace JWTLogin.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class JWTLoginController : ControllerBase
+    public class JWTEmployeeController : ControllerBase
     {
-        private readonly IJWTLoginService _service;
-        public JWTLoginController(IServiceProvider serviceProvider)
+        private readonly IJWTEmployeeService _service;
+        public JWTEmployeeController(IServiceProvider serviceProvider)
         {
-            _service = serviceProvider.GetRequiredService<IJWTLoginService>();
+            _service = serviceProvider.GetRequiredService<IJWTEmployeeService>();
         }
         // POST: insert data
         [HttpPost("registration")]
-        public async Task<IActionResult> InsertData(RegistrationRequestViewModel reg)
+        public async Task<IActionResult> Registration(RegistrationRequestViewModel reg)
         {
             try
             {
-                var result = await _service.InsertDataAsync(reg);
+                var result = await _service.RegistrationAsync(reg);
                 
 
                 var response = new ApiResponseViewModel
@@ -45,7 +45,7 @@ namespace JWTLogin.Controllers
                 return Ok(response);
             }
         }
-        [HttpGet("login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequestViewModel login)
         {
             try

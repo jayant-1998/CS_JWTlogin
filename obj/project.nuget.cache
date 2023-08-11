@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "87QojRUKLmSSU7Ptq+VDdZPn+067j3D7cOHThBA9PiCfe0zctcJX7J/0PInuZ2ZndBXSCqzDHro1GkC8z03I1w==",
+  "dgSpecHash": "gpbvhxqg6HwxrBm3DPEiVt8ZJI2HzK2ctIBQai4HjBsydeQSabkxHrVuiufKrwLOR7aoFSM/g9N2Kb5VaGSM/Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Jayant\\Desktop\\C# Workspace\\JWTlogin\\JWTLogin.csproj",
+  "projectFilePath": "C:\\Users\\Jayant\\Desktop\\C# Workspace\\JWTlogin\\JWTEmployeeLoginPortal.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Jayant\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\Jayant\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",
