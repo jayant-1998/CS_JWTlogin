@@ -13,14 +13,4 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DAL\Repositories\Implementations\" />
-    <Folder Include="DAL\Repositories\Interfaces\" />
-    <Folder Include="Extensions\" />
-    <Folder Include="Models\ResponseViewModels\" />
-    <Folder Include="Models\RequestViewModels\" />
-    <Folder Include="Services\Implementations\" />
-    <Folder Include="Services\Interfaces\" />
-  </ItemGroup>
-
 </Project>

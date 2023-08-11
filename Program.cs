@@ -1,4 +1,8 @@
 using JWTLogin.DAL.DBContexts;
+using JWTLogin.DAL.Repositories.Implementations;
+using JWTLogin.DAL.Repositories.Interfaces;
+using JWTLogin.Services.Implementations;
+using JWTLogin.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +14,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<IJWTLoginRepository, JWTLoginRepository>();
+builder.Services.AddTransient<IJWTLoginService, JWTLoginService>();
 
 builder.Services.AddDbContext<JWTLoginDbContext>(options => options.UseSqlServer("name=DefaultConnection"));
 
