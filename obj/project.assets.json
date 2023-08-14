@@ -4095,9 +4095,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Jayant\\Desktop\\C# Workspace\\JWTlogin\\JWTEmployeeLoginPortal.csproj",
-      "projectName": "JWTEmployeeLoginPortal",
-      "projectPath": "C:\\Users\\Jayant\\Desktop\\C# Workspace\\JWTlogin\\JWTEmployeeLoginPortal.csproj",
+      "projectUniqueName": "C:\\Users\\Jayant\\Desktop\\C# Workspace\\JWTlogin\\EmployeeLoginPortal.csproj",
+      "projectName": "EmployeeLoginPortal",
+      "projectPath": "C:\\Users\\Jayant\\Desktop\\C# Workspace\\JWTlogin\\EmployeeLoginPortal.csproj",
       "packagesPath": "C:\\Users\\Jayant\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Jayant\\Desktop\\C# Workspace\\JWTlogin\\obj\\",
       "projectStyle": "PackageReference",

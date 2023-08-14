@@ -1,8 +1,8 @@
 {
   "Version": 1,
-  "Hash": "JJVfS0UqW5IbZfshuTS82MeWrUibWSC4uNCUwZ8ceJY=",
-  "Source": "JWTEmployeeLoginPortal",
-  "BasePath": "_content/JWTEmployeeLoginPortal",
+  "Hash": "0W8g6Yp2q69hOzJIgNUXNkAmt+tDu38JExmpwn4ML+c=",
+  "Source": "EmployeeLoginPortal",
+  "BasePath": "_content/EmployeeLoginPortal",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],

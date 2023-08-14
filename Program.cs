@@ -14,10 +14,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IJWTEmployeeRepository, JWTEmployeeRepository>();
-builder.Services.AddTransient<IJWTEmployeeService, JWTEmployeeService>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddTransient<IEmployeeService, EmployeeService>();
 
-builder.Services.AddDbContext<JWTEmployeeDbContext>(options => options.UseSqlServer("name=DefaultConnection"));
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer("name=DefaultConnection"));
 
 var app = builder.Build();
 

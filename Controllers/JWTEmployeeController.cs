@@ -9,10 +9,10 @@ namespace JWTLogin.Controllers
     [Route("api/[controller]")]
     public class JWTEmployeeController : ControllerBase
     {
-        private readonly IJWTEmployeeService _service;
+        private readonly IEmployeeService _service;
         public JWTEmployeeController(IServiceProvider serviceProvider)
         {
-            _service = serviceProvider.GetRequiredService<IJWTEmployeeService>();
+            _service = serviceProvider.GetRequiredService<IEmployeeService>();
         }
         // POST: insert data
         [HttpPost("registration")]
@@ -20,17 +20,13 @@ namespace JWTLogin.Controllers
         {
             try
             {
-                var result = await _service.RegistrationAsync(reg);
-                
-
+                RegistrationResponseViewModel result = await _service.RegistrationAsync(reg);
                 var response = new ApiResponseViewModel
                 {
                     Code = 200,
                     Message = "Success",
                     Body = result
                 };
-
-
                 return Ok(response);
             }
             catch (Exception ex)
@@ -41,7 +37,6 @@ namespace JWTLogin.Controllers
                     Message = ex.Message,
                     Body = null
                 };
-
                 return Ok(response);
             }
         }
@@ -50,7 +45,7 @@ namespace JWTLogin.Controllers
         {
             try
             {
-                var result = _service.LoginAsync(login);
+                var result = await _service.LoginAsync(login);
 
                 var response = new ApiResponseViewModel
                 {
@@ -58,8 +53,6 @@ namespace JWTLogin.Controllers
                     Message = "Success",
                     Body = result
                 };
-
-
                 return Ok(response);
             }
             catch (Exception ex)
@@ -70,7 +63,6 @@ namespace JWTLogin.Controllers
                     Message = ex.Message,
                     Body = null
                 };
-
                 return Ok(response);
             }
         }

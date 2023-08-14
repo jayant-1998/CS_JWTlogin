@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace JWTLogin.DAL.Entities
 {
     [Table("registered", Schema = "dbo")]
-    public class RegisteredEntity
+    public class Registration
     {
         [Key]
         public int UserId { get; set; }
