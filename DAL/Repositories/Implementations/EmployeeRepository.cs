@@ -1,4 +1,5 @@
-﻿using JWTEmployeeLoginPortal.DAL.Entities;
+﻿using EmployeeLoginPortal.Models.ResponseViewModels;
+using JWTEmployeeLoginPortal.DAL.Entities;
 using JWTLogin.DAL.DBContexts;
 using JWTLogin.DAL.Entities;
 using JWTLogin.DAL.Repositories.Interfaces;
@@ -32,20 +33,24 @@ namespace JWTLogin.DAL.Repositories.Implementations
             }
             return null;
         }
-        public async Task<Secret?> GetSecretKey()
+        public async Task<TokenKey?> GetSecretKey()
         {
-            Secret response = await _context.secretKey
+            TokenKey response = await _context.secretKey
                                            .Where(r => r.Id == 1)
                                            .FirstOrDefaultAsync();
             if (response != null)
             {
-                
                 return response;
             }
             return null;
         }
 
-        
-        
+        public async Task<Registration> FetchDetailsAsyncById(int id)
+        {
+            Registration response = await _context.registrations
+                            .Where(r => r.UserId == id)
+                            .FirstOrDefaultAsync();
+            return response;
+        }
     }
 }

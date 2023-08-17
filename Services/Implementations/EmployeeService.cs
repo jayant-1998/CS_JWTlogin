@@ -5,31 +5,33 @@ using JWTLogin.Extensions;
 using JWTLogin.Models.RequestViewModels;
 using JWTLogin.Models.ResponseViewModels;
 using JWTLogin.Services.Interfaces;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
+using EmployeeLoginPortal.Services.Implementations;
+using System.Text.RegularExpressions;
+using EmployeeLoginPortal.Models.ResponseViewModels;
 
 namespace JWTLogin.Services.Implementations
 {
     public class EmployeeService : IEmployeeService
     {
+
+        private const string Pattern = "^([0-9a-zA-Z]([-\\.\\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\\w]*[0-9a-zA-Z]\\.)+[a-zA-Z]{2,9})$";
         private readonly IEmployeeRepository _repository;
-        //private readonly ICompressionProvider _config;
 
         public EmployeeService(IServiceProvider serviceProvider)
         {
             _repository = serviceProvider.GetRequiredService<IEmployeeRepository>();
-            //_config = configuration;
+
         }
-
-
 
         public async Task<RegistrationResponseViewModel?> RegistrationAsync(RegistrationRequestViewModel reg)
         {
-            reg.Password = HashPassword(reg.Password);
-            var temp =reg.ToViewModel<RegistrationRequestViewModel, Registration>();
+            var pass = new HashingService();
+            reg.Password = pass.HashPassword(reg.Password);
+            var temp = reg.ToViewModel<RegistrationRequestViewModel, Registration>();
+            if (!Regex.Match(reg.Email, Pattern).Success)
+            {
+                return null;
+            }
             var entity = await _repository.RegistrationAsync(temp);
             if (entity != null)
             {
@@ -37,60 +39,80 @@ namespace JWTLogin.Services.Implementations
             }
             return null;
         }
-        static string HashPassword(string plainPassword)
-        {
-            using (SHA256 sha256 = SHA256.Create())
-            {
-                byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(plainPassword));
-                return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
-            }
-        }
 
-        public async Task<string> LoginAsync(LoginRequestViewModel reg )
+        public async Task<string> LoginAsync(LoginRequestViewModel reg)
         {
-            Secret? secretKey = await _repository.GetSecretKey();
+            var pass = new HashingService();
+            var jwt = new TokenGenerateService();
+            var encrypt = new EncryptDecryptStringService();
+
+            TokenKey? key = await _repository.GetSecretKey();
+            if (key == null)
+            {
+                return "something went wrong!!!!";
+            }
+            string SecretsKey = encrypt.DecryptString(key.EncryptionKey, key.SecretKeyEncrypted);
             Registration? details = await _repository.LoginAsync(reg);
             if (details != null)
             {
-                if (secretKey != null)
+                if (SecretsKey != null)
                 {
-                    if (ComparePassword(reg.Password, details.Password))
+                    if (pass.ComparePassword(reg.Password, details.Password))
                     {
-                        return GenerateJwt(details.UserId, secretKey.SecretKey);
+                        return jwt.GenerateJwt(details, SecretsKey);
                     }
                 }
                 return "Secret key is not found";
             }
             return "user not found";
         }
-        private static string GenerateJwt(int userId,string secrete)
+
+        public string Encryption(string k, string t)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secrete));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new[]
-            {
-            new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
-            new Claim(JwtRegisteredClaimNames.Iat, DateTimeOffset.UtcNow.ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
-            };
-
-            var token = new JwtSecurityToken(
-                claims: claims,
-                expires: DateTime.UtcNow.AddHours(1),
-                signingCredentials: credentials
-            );
-
-            var jwtTokenHandler = new JwtSecurityTokenHandler();
-            return jwtTokenHandler.WriteToken(token);
+            var encrypt = new EncryptDecryptStringService();
+            string key = k;
+            string token = t;
+            return encrypt.EncryptString(key, token);
         }
-        private static bool ComparePassword(string plainPassword, string hashedPassword)
+
+        public async Task<EmployeeViewModel> GetEmployeeAsync(string? jwtToken, int id)
         {
-            using (SHA256 sha256 = SHA256.Create())
+            var encrypt = new EncryptDecryptStringService();
+            if (!string.IsNullOrEmpty(jwtToken))
             {
-                byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(plainPassword));
-                string hashedInputPassword = BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
-                return hashedInputPassword == hashedPassword;
+                TokenKey? key = await _repository.GetSecretKey();
+                if (key == null)
+                {
+                    throw new Exception("Error in GetSecretKey not Fetching data");
+                }
+                string SecretsKey = encrypt.DecryptString(key.EncryptionKey, key.SecretKeyEncrypted);
+                var claimObject = new FetchClaimsService();
+                ClaimsViewModel claim = claimObject.IsTokenValid(jwtToken, SecretsKey);
+                if (claim.IsValid == false)
+                {
+                    throw new Exception($"{jwtToken} is not valid.");
+                }
+                if (claim.ExpiredAt > DateTime.Now && claim.Role == "user" || claim.Role == "admin")
+                {
+                    id = claim.UserId;
+                }
+                Registration reg = await _repository.FetchDetailsAsyncById(id);
+                if (reg != null)
+                {
+                    return reg.ToViewModel<Registration, EmployeeViewModel>();
+                }
+                throw new Exception("Error in FetchDetailsAsyncById not Fetching data");
             }
+            else if (id >= 0)
+            {
+                Registration reg = await _repository.FetchDetailsAsyncById(id);
+                if (reg != null)
+                {
+                    return reg.ToViewModel<Registration, EmployeeViewModel>();
+                }
+                throw new Exception("Error in FetchDetailsAsyncById not Fetching data");
+            }
+            throw new Exception("Either JwtToken or Id is required");
         }
     }
 }

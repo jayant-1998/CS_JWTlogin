@@ -86,3 +86,4 @@ C:\Users\Jayant\Desktop\C# Workspace\JWTlogin\obj\Debug\net6.0\refint\EmployeeLo
 C:\Users\Jayant\Desktop\C# Workspace\JWTlogin\obj\Debug\net6.0\EmployeeLoginPortal.pdb
 C:\Users\Jayant\Desktop\C# Workspace\JWTlogin\obj\Debug\net6.0\EmployeeLoginPortal.genruntimeconfig.cache
 C:\Users\Jayant\Desktop\C# Workspace\JWTlogin\obj\Debug\net6.0\ref\EmployeeLoginPortal.dll
+C:\Users\Jayant\Desktop\C# Workspace\JWTlogin\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

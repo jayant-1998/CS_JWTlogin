@@ -9,12 +9,12 @@ namespace JWTLogin.DAL.DBContexts
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
         
         public DbSet<Registration> registrations { get; set; }
-        public DbSet<Secret> secretKey { get; set; }
+        public DbSet<TokenKey> secretKey { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Registration>();
-            modelBuilder.Entity<Secret>();
+            modelBuilder.Entity<TokenKey>();
 
         }
 

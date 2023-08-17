@@ -3,12 +3,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace JWTEmployeeLoginPortal.DAL.Entities
 {
-    [Table("secretkey", Schema = "dbo")]
-    public class Secret
+    [Table("tokenkey", Schema = "dbo")]
+    public class TokenKey
     {
         [Key]
         public int Id { get; set; }
-        public string SecretKey { get; set; }
+        public string EncryptionKey { get; set; }
+        public string SecretKeyEncrypted { get; set; }
         public string Issuer { get; set; }
         public string Audience { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
